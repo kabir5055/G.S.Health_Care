@@ -99,7 +99,7 @@ class EmpEditApi(CreateAPIView):
         except Exception as ex:
             return Response({"Massage": str(ex)}, status=400)
 
-
+# edit api
 class EmpDetailsApi(ListAPIView):
     permission_classes = []
 
