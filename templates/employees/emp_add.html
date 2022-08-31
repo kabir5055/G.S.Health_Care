@@ -1,0 +1,70 @@
+{% extends "base/header.html" %}
+{% block title %}Employee's Add{% endblock %}
+{% block body %}
+        <h2 class="text-center m-4"><i class="fa-solid fa-plus"></i> <strong>Add Employee</strong></h2>
+
+        <div class="col-4 container-fluid">
+          <form class="px-4 py-3" id="emp_add">
+            <div class="mb-2">
+              <label for="emp_id" class="form-label">Employee ID :</label>
+              <input type="text" class="form-control" id="emp_id" placeholder="GS-000">
+            </div>
+              <div class="mb-2">
+              <label for="first_name" class="form-label">First Name :</label>
+              <input type="text" class="form-control" id="first_name" placeholder="First Name">
+            </div>
+              <div class="mb-2">
+              <label for="last_name" class="form-label">Last Name :</label>
+              <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+            </div>
+            <div class="mb-2">
+              <label for="gender" class="form-label">Gender :</label>
+              <input type="text" class="form-control" id="gender" placeholder="Male/Female">
+            </div>
+              <div class="mb-2">
+              <label for="designation" class="form-label">Designation</label>
+              <input type="text" class="form-control" id="designation" placeholder="MPO">
+            </div>
+              <div class="mb-2">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="text" class="form-control" id="phone" placeholder="+008">
+            </div>
+              <div class="mb-2">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" placeholder="email@example.com">
+            </div>
+
+            <div class="mb-4">
+              <label for="birth_date" class="form-label">Birth Date</label>
+              <input type="date" class="form-control" id="birth_date" placeholder="">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+          <div class="dropdown-divider"></div>
+        </div>
+<script>
+
+  $('#form_sign_up').submit(function(event){
+        event.preventDefault()
+        console.log(event)
+      let data_str = new FormData(document.getElementById('emp_add'));
+          $.ajax({
+            type:"POST",
+            headers: {"X-CSRFToken": '{{csrf_token}}'},
+            url: "http://127.0.0.1:8000/employees/add_emp_api/",
+            data: data_str,
+            success: function(value){
+              console.log(value)
+              if(value.status==200){
+                console.log(value.email)
+                localStorage.setItem('email', value.email)
+              }
+            },
+            error: function(errormsg){
+              console.log(errormsg)
+            }
+          });
+    })
+</script>
+{% endblock %}

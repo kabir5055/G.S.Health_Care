@@ -1,0 +1,65 @@
+{% extends "base/header.html" %}
+{% block title %}Employee's List{% endblock %}
+{% block body %}
+
+    <div class="container-fluid">
+        <h3 class="mt-4 mb-lg-4 text-center text-success">Employee's Details</h3>
+        <div class="row" id="emp_details_ajax">
+
+        </div>
+    </div>
+
+<script>
+    let path = window.location.pathname.split('/');
+    console.log(path[3])
+    $.ajax({
+            type:"GET",
+            url : "http://127.0.0.1:8000/employees/details_emp_api/"+path[3]+"/",
+            success: function(emp_details){
+                $('#emp_details_ajax').append(`
+                  <div class="container-fluid col-10" id="main-${emp_details.id}">
+                        <div class="card text-white bg-light ms-4 me-4 mb-4">
+                          <div class="card-header text-success"><i class="fa-solid fa-user fa-lg"></i> <strong>Employee's ID : ${emp_details.emp_id}</strong></div>
+                          <div class="card-body text-center">
+                            <h4 class="card-title"></h4>
+                            <p class="card-text">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">First Name</th>
+                                          <th scope="col">Last Name</th>
+                                          <th scope="col">Designation</th>
+                                          <th scope="col">Phone No.</th>
+                                          <th scope="col">Email</th>
+                                          <th scope="col">D.O.B.</th>
+                                          <th scope="col">Blood Group</th>
+                                          <th scope="col">District</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                            <td>${emp_details.first_name}</td>
+                                            <td>${emp_details.last_name}</td>
+                                            <td>${emp_details.designation }</td>
+                                            <td>${emp_details.phone}</td>
+                                            <td>${emp_details.email}</td>
+                                            <td>${emp_details.birth_date}</td>
+                                            <td>${emp_details.blood_group}</td>
+                                            <td>${emp_details.district}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </p>
+                          </div>
+                        </div>
+                  </div>
+                `)
+            },
+            error(errormassage){
+                console.log(Error)
+            }
+    })
+</script>
+{% endblock %}

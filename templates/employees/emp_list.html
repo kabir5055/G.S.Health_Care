@@ -1,0 +1,74 @@
+{% extends "base/header.html" %}
+{% block title %}Employee's List{% endblock %}
+{% block body %}
+
+    <div class="container-fluid">
+        <h3 class="mt-4 mb-lg-4 text-center text-success"><i class="fa-solid fa-users"></i> Employee's List </h3>
+        <div class="row" id="emp_list_ajax">
+
+        </div>
+    </div>
+
+<script>
+    function hide_emp(id){
+        console.log("success")
+        $('main-'+emp_id).hide()
+    }
+    $.ajax({
+            type:"GET",
+            url : "http://127.0.0.1:8000/employees/list_emp_api",
+            success: function(emp_list){
+                for(let x=0; x<emp_list.length; x++) {
+                    $('#emp_list_ajax').append(`
+                      <div class="container-fluid col-10" id="main-${emp_list[x].id}">
+                            <div class="card text-white bg-light ms-4 me-4 mb-4">
+                              <div class="card-header text-success"><i class="fa-solid fa-user fa-lg"></i> <strong>No : ${emp_list[x].id}</strong></div>
+                              <div class="card-body text-center">
+                                <h4 class="card-title"></h4>
+                                <p class="card-text">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">GS-ID</th>
+                                              <th scope="col">First Name</th>
+                                              <th scope="col">Last Name</th>
+                                              <th scope="col">Designation</th>
+                                              <th scope="col">Phone No.</th>
+                                              <th scope="col">Email</th>
+                                              <th scope="col">Action</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                                <td>${emp_list[x].emp_id}</td>
+                                                <td>${emp_list[x].first_name}</td>
+                                                <td>${emp_list[x].last_name}</td>
+                                                <td>${emp_list[x].designation }</td>
+                                                <td>${emp_list[x].phone}</td>
+                                                <td>${emp_list[x].email}</td>
+
+                                                <td>
+                                                    <a target="_blank" class="btn btn-success me-1" onclick="hide_emp(${emp_list[x].id})">
+                                                    <i class="fa-solid fa-eye-slash fa-lg"></i></a>
+
+                                                    <a class="btn btn-success me-1" href="/employees/details_emp/${emp_list[x].id}">
+                                                    <i class="fa-solid fa-circle-info fa-lg"></i></a>
+                                                </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                              </div>
+                            </div>
+                      </div>
+                    `)
+                }
+            },
+            error(errormassage){
+                console.log(Error)
+            }
+    })
+</script>
+{% endblock %}
