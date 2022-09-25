@@ -2,9 +2,9 @@
 {% block title %}Employee's Add{% endblock %}
 {% block body %}
         <h2 class="text-center m-4"><i class="fa-solid fa-plus"></i> <strong>Add Employee</strong></h2>
-
+    <form id="emp_add">
         <div class="col-4 container-fluid">
-          <form class="px-4 py-3" id="emp_add">
+          {% csrf_token %}
             <div class="mb-2">
               <label for="emp_id" class="form-label">Employee ID :</label>
               <input type="text" class="form-control" id="emp_id" placeholder="GS-000">
@@ -38,33 +38,59 @@
               <label for="birth_date" class="form-label">Birth Date</label>
               <input type="date" class="form-control" id="birth_date" placeholder="">
             </div>
+            <div class="mb-4">
+              <label for="blood_group" class="form-label">Blood Group</label>
+              <input type="text" class="form-control" id="blood_group" placeholder="">
+            </div>
+            <div class="mb-4">
+              <label for="district" class="form-label">District</label>
+              <input type="text" class="form-control" id="district" placeholder="">
+            </div>
 
-            <button type="submit" class="btn btn-primary">Sign in</button>
-          </form>
+            <button type="submit" class="btn btn-primary" value="submit" id="submit">Submit</button>
           <div class="dropdown-divider"></div>
         </div>
+    </form>
 <script>
-
-  $('#form_sign_up').submit(function(event){
+  $('#emp_add').submit(function(event){
         event.preventDefault()
         console.log(event)
-      let data_str = new FormData(document.getElementById('emp_add'));
-          $.ajax({
-            type:"POST",
-            headers: {"X-CSRFToken": '{{csrf_token}}'},
-            url: "http://127.0.0.1:8000/employees/add_emp_api/",
-            data: data_str,
-            success: function(value){
-              console.log(value)
-              if(value.status==200){
-                console.log(value.email)
-                localStorage.setItem('email', value.email)
-              }
-            },
-            error: function(errormsg){
-              console.log(errormsg)
-            }
-          });
-    })
+  })
+  $("#submit").click(function(){
+      console.log("value")
+      var data_value={}
+      data_value['emp_id']=$("#emp_id").val()
+      data_value['first_name']=$("#first_name").val()
+      data_value['last_name']=$("#last_name").val()
+      data_value['gender']=$("#gender").val()
+      data_value['designation']=$("#designation").val()
+      data_value['phone']=$("#phone").val()
+      data_value['email']=$("#email").val()
+      data_value['birth_date']=$("#birth_date").val()
+      data_value['blood_group']=$("#blood_group").val()
+      data_value['district']=$("#district").val()
+      console.log(data_value)
+      $.ajax({
+        type:"POST",
+        headers: {"X-CSRFToken": '{{csrf_token}}'},
+        url: "http://127.0.0.1:8000/employees/add_emp_api/",
+        data: JSON.stringify(data_value),
+        success: function(value){
+          console.log(value)
+          if(value.status==200){
+            console.log(value)
+            console.log("value")
+            window.location('/')
+          }
+        },
+        error: function(errormsg){
+          console.log(errormsg)
+          console.log("kabir")
+        }
+      });
+  })
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
+

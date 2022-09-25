@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base/header.html" %}
+{% block title %}Employee's List{% endblock %}
+{% block body %}
+
+        <form id="emp_add">
+            <div class="col-4 container-fluid">
+              {% csrf_token %}
+                <div class="mb-2">
+                  <label for="emp_id" class="form-label">Employee ID :</label>
+                  <input type="text" class="form-control" id="emp_id" placeholder="GS-000">
+                </div>
+                  <div class="mb-2">
+                  <label for="first_name" class="form-label">First Name :</label>
+                  <input type="text" class="form-control" id="first_name" placeholder="First Name">
+                </div>
+                  <div class="mb-2">
+                  <label for="last_name" class="form-label">Last Name :</label>
+                  <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+                </div>
+                <div class="mb-2">
+                  <label for="gender" class="form-label">Gender :</label>
+                  <input type="text" class="form-control" id="gender" placeholder="Male/Female">
+                </div>
+                  <div class="mb-2">
+                  <label for="designation" class="form-label">Designation</label>
+                  <input type="text" class="form-control" id="designation" placeholder="MPO">
+
+                <button type="submit" class="btn btn-primary" value="submit" id="submit">Submit</button>
+              <div class="dropdown-divider"></div>
+            </div>
+        </form>
+
+{% endblock %}
